@@ -5,16 +5,18 @@ import NormalDistribution from "normal-distribution";
 export default class Field extends React.Component {
   constructor(props) {
     super(props);
+    const treeR = 10;
     const arr = [];
     for (let i = 0; i < 576; i += 1) {
       const val = Math.round(Math.random() * (180 - 120) + 120);
       arr.push({
         yeild: val,
-        x: 7.5 + (i - Math.floor(i / 24) * 24) * 15,
-        y: 7.5 + Math.floor(i / 24) * 15,
+        x: treeR + (i - Math.floor(i / 24) * 24) * treeR * 2,
+        y: treeR + Math.floor(i / 24) * treeR * 2,
       })
     };
     this.state = {
+      treeR: treeR,
       state: 'field',
       trees: arr,
     }
@@ -22,8 +24,8 @@ export default class Field extends React.Component {
   toCurve = () => {
     const nd = new NormalDistribution(150, 10);
     const newArr = this.state.trees.map((tree, i) => {
-      tree.x = (tree.yeild - 120) * 6
-      tree.y = 360 - nd.pdf(tree.yeild) * 9000;
+      tree.x = (tree.yeild - this.state.treeR * 48 / 4) * 8
+      tree.y = this.state.treeR * 48 - nd.pdf(tree.yeild) * this.state.treeR * 48 * 24;
       return tree;
     })
     this.setState({
@@ -33,8 +35,8 @@ export default class Field extends React.Component {
   }
   toField = () => {
     const newArr = this.state.trees.map((tree, i) => {
-      tree.x = 7.5 + (i - Math.floor(i / 24) * 24) * 15;
-      tree.y = 7.5 + Math.floor(i / 24) * 15;
+      tree.x = this.state.treeR + (i - Math.floor(i / 24) * 24) * this.state.treeR * 2;
+      tree.y = this.state.treeR + Math.floor(i / 24) * this.state.treeR * 2;
       return tree;
     });
     this.setState({
@@ -56,7 +58,7 @@ export default class Field extends React.Component {
       transitionDuration: '1.5s'
     }
     return <>
-      <svg width="360" height="360"><Scheme style={animation} state={this.state} /></svg>
+      <svg width={this.state.treeR * 48} height={this.state.treeR * 48}><Scheme style={animation} state={this.state} /></svg>
       <div><button onClick={this.changeState}>Поменять</button></div>
     </>
   }
