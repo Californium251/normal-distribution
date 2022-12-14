@@ -60,7 +60,7 @@ export default class Field extends React.Component {
     const buttonTest = this.state.state === 'field' ? 'Туда' : 'Сюда';
     return <>
       <svg width={this.state.treeR * 48} height={this.state.treeR * 48}><Scheme style={animation} state={this.state} /></svg>
-      <div><button onClick={this.changeState}>{buttonTest}</button></div>
+      <div><button class="switcher" onClick={this.changeState}>{buttonTest}</button></div>
     </>
   }
 }

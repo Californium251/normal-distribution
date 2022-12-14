@@ -28,6 +28,19 @@
   color: #61dafb;
 }
 
+.switcher {
+  margin-top: 24px;
+  padding: 10px;
+  width: 200px;
+  background-color: #f2f2f2;
+  border: 0px;
+  border-radius: 8px;
+}
+.switcher:hover {
+  background-color: #2f2f2f;
+  color: #fff;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
