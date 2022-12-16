@@ -1,5 +1,7 @@
 import React from "react";
+import _ from 'lodash';
 import Scheme from "./Scheme";
+import Tooltip from "./Tooltip";
 import NormalDistribution from "normal-distribution";
 
 export default class Field extends React.Component {
@@ -10,12 +12,14 @@ export default class Field extends React.Component {
     for (let i = 0; i < 576; i += 1) {
       const val = Math.round(Math.random() * (180 - 120) + 120);
       arr.push({
+        id: _.uniqueId(),
         yeild: val,
         x: treeR + (i - Math.floor(i / 24) * 24) * treeR * 2,
         y: treeR + Math.floor(i / 24) * treeR * 2,
       })
     };
     this.state = {
+      selectedTree: null,
       treeR: treeR,
       state: 'field',
       trees: arr,
@@ -52,6 +56,13 @@ export default class Field extends React.Component {
       this.toField();
     }
   }
+  onMouseEnter = (id) => () => {
+    const selectedTree = this.state.trees.filter((tree) => tree.id === id)[0];
+    this.setState({ selectedTree });
+  };
+  onMouseLeave = (id) => () => {
+    this.setState({ selectedTree: null })
+  }
   render() {
     const animation = {
       transitionProperty: 'cx, cy',
@@ -59,8 +70,16 @@ export default class Field extends React.Component {
     }
     const buttonTest = this.state.state === 'field' ? 'Туда' : 'Сюда';
     return <>
-      <svg width={this.state.treeR * 48} height={this.state.treeR * 48}><Scheme style={animation} state={this.state} /></svg>
-      <div><button class="switcher" onClick={this.changeState}>{buttonTest}</button></div>
+      <svg width={this.state.treeR * 48} height={this.state.treeR * 48}>
+        <Scheme
+        style={animation}
+        state={this.state}
+        onMouseEnter={this.onMouseEnter}
+        onMouseLeave={this.onMouseLeave}
+        />
+        <Tooltip selectedTree={this.state.selectedTree} />
+      </svg>
+      <div><button className="switcher" onClick={this.changeState}>{buttonTest}</button></div>
     </>
   }
 }
