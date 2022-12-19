@@ -49,3 +49,13 @@
     transform: rotate(360deg);
   }
 }
+
+@font-face {
+  font-family: "ys-text-regular";
+  src: url('./fonts/YS\ Text-Regular.ttf');
+}
+
+@font-face {
+  font-family: "ys-text-bold";
+  src: url('./fonts/YS\ Text-Bold.ttf');
+}

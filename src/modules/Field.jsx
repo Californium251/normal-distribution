@@ -3,6 +3,7 @@ import _ from 'lodash';
 import Scheme from "./Scheme";
 import Tooltip from "./Tooltip";
 import NormalDistribution from "normal-distribution";
+import "../fonts/YS Text-Bold.ttf";
 
 export default class Field extends React.Component {
   constructor(props) {
@@ -75,10 +76,10 @@ export default class Field extends React.Component {
     const buttonTest = this.state.state === 'field' ? 'Туда' : 'Сюда';
     return <>
       <svg width={764} height={573}>
-        <text fontSize="24px" fontWeight="500" x="10" y="50" width="50px">Урожайность деревьев</text>
-        <text fontSize="24px" fontWeight="500" x="10" y="82" width="50px">укладывается</text>
-        <text fontSize="24px" fontWeight="500" x="10" y="114" width="50px">в нормальное</text>
-        <text fontSize="24px" fontWeight="500" x="10" y="146" width="50px">распределение</text>
+        <text font-family="ys-text-regular, sans-serif" fontSize="24px" fontWeight="500" x="10" y="50" width="50px">Урожайность деревьев</text>
+        <text font-family="ys-text-regular, sans-serif" fontSize="24px" fontWeight="500" x="10" y="82" width="50px">укладывается</text>
+        <text font-family="ys-text-regular, sans-serif" fontSize="24px" fontWeight="500" x="10" y="114" width="50px">в нормальное</text>
+        <text font-family="ys-text-regular, sans-serif" fontSize="24px" fontWeight="500" x="10" y="146" width="50px">распределение</text>
         <Scheme
         style={animation}
         state={this.state}
@@ -87,8 +88,8 @@ export default class Field extends React.Component {
         />
         <Tooltip selectedTree={this.state.selectedTree} />
         <g onClick={this.changeState} onMouseEnter={this.onButtonHover} onMouseLeave={this.onButtonHover} cursor="pointer">
-          <rect x="10" y="190" width="200px" height="40px" fill={this.state.buttonHover ? '#000' : '#fff'} rx="8px" ry="8px" />
-          <text x="90" y="215" fill={!this.state.buttonHover ? '#000' : '#fff'}>{this.state.state === 'field' ? 'Туда' : 'Сюда'}</text>
+          <rect x="10" y="190" width="200px" height="40px" fill={this.state.buttonHover ? '#000' : '#fff'} stroke="black" rx="8px" ry="8px" />
+          <text font-family="ys-text-regular, sans-serif" x="90" y="215" fill={!this.state.buttonHover ? '#000' : '#fff'}>{this.state.state === 'field' ? 'Туда' : 'Сюда'}</text>
         </g>
       </svg>
     </>
