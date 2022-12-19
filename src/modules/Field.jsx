@@ -14,11 +14,12 @@ export default class Field extends React.Component {
       arr.push({
         id: _.uniqueId(),
         yeild: val,
-        x: treeR + (i - Math.floor(i / 24) * 24) * treeR * 2,
-        y: treeR + Math.floor(i / 24) * treeR * 2,
+        x: 284 + treeR + (i - Math.floor(i / 24) * 24) * treeR * 2,
+        y: 93 + treeR + Math.floor(i / 24) * treeR * 2,
       })
     };
     this.state = {
+      buttonHover: false,
       selectedTree: null,
       treeR: treeR,
       state: 'field',
@@ -28,8 +29,8 @@ export default class Field extends React.Component {
   toCurve = () => {
     const nd = new NormalDistribution(150, 10);
     const newArr = this.state.trees.map((tree, i) => {
-      tree.x = (tree.yeild - this.state.treeR * 48 / 4) * 8
-      tree.y = this.state.treeR * 48 - nd.pdf(tree.yeild) * this.state.treeR * 48 * 24;
+      tree.x = 284 + (tree.yeild - this.state.treeR * 48 / 4) * 8
+      tree.y = 93 + this.state.treeR * 48 - nd.pdf(tree.yeild) * this.state.treeR * 48 * 24;
       return tree;
     })
     this.setState({
@@ -39,8 +40,8 @@ export default class Field extends React.Component {
   }
   toField = () => {
     const newArr = this.state.trees.map((tree, i) => {
-      tree.x = this.state.treeR + (i - Math.floor(i / 24) * 24) * this.state.treeR * 2;
-      tree.y = this.state.treeR + Math.floor(i / 24) * this.state.treeR * 2;
+      tree.x = 284 + this.state.treeR + (i - Math.floor(i / 24) * 24) * this.state.treeR * 2;
+      tree.y = 93 + this.state.treeR + Math.floor(i / 24) * this.state.treeR * 2;
       return tree;
     });
     this.setState({
@@ -63,6 +64,9 @@ export default class Field extends React.Component {
   onMouseLeave = (id) => () => {
     this.setState({ selectedTree: null })
   }
+  onButtonHover = () => {
+    this.setState({ buttonHover: !this.state.buttonHover })
+  }
   render() {
     const animation = {
       transitionProperty: 'cx, cy',
@@ -70,7 +74,11 @@ export default class Field extends React.Component {
     }
     const buttonTest = this.state.state === 'field' ? 'Туда' : 'Сюда';
     return <>
-      <svg width={this.state.treeR * 48} height={this.state.treeR * 48}>
+      <svg width={764} height={573}>
+        <text fontSize="24px" fontWeight="500" x="10" y="50" width="50px">Урожайность деревьев</text>
+        <text fontSize="24px" fontWeight="500" x="10" y="82" width="50px">укладывается</text>
+        <text fontSize="24px" fontWeight="500" x="10" y="114" width="50px">в нормальное</text>
+        <text fontSize="24px" fontWeight="500" x="10" y="146" width="50px">распределение</text>
         <Scheme
         style={animation}
         state={this.state}
@@ -78,8 +86,11 @@ export default class Field extends React.Component {
         onMouseLeave={this.onMouseLeave}
         />
         <Tooltip selectedTree={this.state.selectedTree} />
+        <g onClick={this.changeState} onMouseEnter={this.onButtonHover} onMouseLeave={this.onButtonHover} cursor="pointer">
+          <rect x="10" y="190" width="200px" height="40px" fill={this.state.buttonHover ? '#000' : '#fff'} rx="8px" ry="8px" />
+          <text x="90" y="215" fill={!this.state.buttonHover ? '#000' : '#fff'}>{this.state.state === 'field' ? 'Туда' : 'Сюда'}</text>
+        </g>
       </svg>
-      <div><button className="switcher" onClick={this.changeState}>{buttonTest}</button></div>
     </>
   }
 }
